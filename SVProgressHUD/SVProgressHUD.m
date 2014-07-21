@@ -632,9 +632,9 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
         [self cancelRingLayerAnimation];
         [self.hudView addSubview:self.indefiniteAnimatedView];
     }
-    
+
     if(self.maskType != SVProgressHUDMaskTypeNone) {
-        self.overlayView.userInteractionEnabled = YES;
+		self.overlayView.userInteractionEnabled = YES;
         self.userInteractionEnabled = YES;
         self.accessibilityLabel = string;
         self.isAccessibilityElement = YES;
