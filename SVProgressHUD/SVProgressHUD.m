@@ -635,10 +635,12 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
     
     if(self.maskType != SVProgressHUDMaskTypeNone) {
         self.overlayView.userInteractionEnabled = YES;
+        self.userInteractionEnabled = YES;
         self.accessibilityLabel = string;
         self.isAccessibilityElement = YES;
     } else {
         self.overlayView.userInteractionEnabled = NO;
+        self.userInteractionEnabled = NO;
         self.hudView.accessibilityLabel = string;
         self.hudView.isAccessibilityElement = YES;
     }
@@ -724,6 +726,7 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
         self.isAccessibilityElement = YES;
     } else {
         self.overlayView.userInteractionEnabled = NO;
+        self.userInteractionEnabled = YES;
         self.hudView.accessibilityLabel = string;
         self.hudView.isAccessibilityElement = YES;
     }
@@ -869,6 +872,16 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
     return ([self sharedView].alpha == 1);
 }
 
+#pragma mark - UIResponder
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch* touch = [[[event allTouches] allObjects] firstObject];
+    CGPoint point = [touch locationInView:self];
+
+    if (CGRectContainsPoint(self.hudView.frame, point))
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:SVProgressHUDDidReceiveTouchEventNotification object:event];
+    }
+}
 
 #pragma mark - Getters
 
